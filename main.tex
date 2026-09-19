@@ -26,7 +26,7 @@ Swami Vivekananda University, India}
 \maketitle
 
 \begin{abstract}
-SMS spam detection is a compact but practical natural-language processing problem in which legitimate and unwanted messages must be distinguished from short, noisy, and highly variable text. This paper evaluates a deliberately lightweight detection pipeline based on word-count features and Multinomial Naive Bayes, while extending the evaluation beyond headline accuracy to provide an error-sensitive view of operational behavior and reproducibility. The experiment uses a 5,559-message CSV derived from the public SMS Spam Collection, with 4,812 legitimate messages and 747 spam messages. An 80\%--20\% hold-out split with a fixed random seed is used, and CountVectorizer is fitted only on the training partition. On the held-out test set, the proposed baseline obtains 99.01\% accuracy, 100\% spam precision, 91.73\% spam recall, and 95.69\% spam F1-score. The confusion matrix contains 979 true negatives, 122 true positives, 11 false negatives, and zero false positives. From these observations, the balanced accuracy is 95.86\%, the false-negative rate is 8.27\%, and the Matthews correlation coefficient is 0.9524. The paper's contribution is intentionally methodological rather than algorithmic: it combines dataset-provenance transparency, leakage-safe feature construction, error-sensitive reporting, and a reproducible lightweight implementation into a single baseline. This framing is useful because high aggregate accuracy can obscure practically important error asymmetry in imbalanced SMS data. The resulting system is not presented as state of the art, nor is measured resource efficiency claimed; instead, it is positioned as a transparent and reproducible baseline for student research and reproducibility-oriented studies.
+SMS spam detection is a compact but practical natural-language processing problem in which legitimate and unwanted messages must be distinguished from short, noisy, and highly variable text. This paper evaluates a deliberately lightweight detection pipeline based on word-count features and Multinomial Naive Bayes, while extending the evaluation beyond headline accuracy to provide an error-sensitive view of operational behavior and reproducibility. The experiment uses a 5,559-message CSV derived from the public SMS Spam Collection, with 4,812 legitimate messages and 747 spam messages. An 80\%--20\% hold-out split with a fixed random seed is used, and CountVectorizer is fitted only on the training partition. On the held-out test set, the proposed baseline obtains 99.01\% accuracy, 100\% spam precision, 91.73\% spam recall, and 95.69\% spam F1-score. The confusion matrix contains 979 true negatives, 122 true positives, 11 false negatives, and zero false positives. From these observations, the balanced accuracy is 95.86\%, the false-negative rate is 8.27\%, and the Matthews correlation coefficient is 0.9524. The paper's contribution is intentionally methodological rather than algorithmic: it combines dataset-provenance transparency, leakage-safe feature construction, error-sensitive reporting, and a reproducible lightweight implementation into a single baseline. This framing is useful because high aggregate accuracy can obscure practically important error asymmetry in imbalanced SMS data. The resulting system is not presented as state of the art, nor is measured resource efficiency claimed; instead, it is positioned as a transparent and reproducible baseline for lightweight SMS spam classification and reproducibility-oriented studies.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -50,7 +50,7 @@ This paper therefore addresses the following research questions.
 
 \textbf{RQ3:} Can dataset provenance, leakage-safe preprocessing, and error-sensitive metrics provide a more reproducible and informative baseline than reporting accuracy alone?
 
-The paper does not claim a new learning algorithm. Its methodological contribution is an integrated, auditable evaluation pattern for a student-scale study: (i) explicit distinction between the official public corpus and the exact local CSV used in the experiment; (ii) strict training-only vocabulary fitting; (iii) error-sensitive analysis using derived measures in addition to accuracy; and (iv) a reproducible implementation based on widely used external scientific Python packages. Resource use is discussed qualitatively because runtime, memory, and throughput were not recorded in the original experiment. The result is positioned as a transparent baseline that can be extended to stronger classifiers and newer datasets.
+The paper does not claim a new learning algorithm. Its methodological contribution is an integrated, auditable evaluation pattern for a small-scale study: (i) explicit distinction between the official public corpus and the exact local CSV used in the experiment; (ii) strict training-only vocabulary fitting; (iii) error-sensitive analysis using derived measures in addition to accuracy; and (iv) a reproducible implementation based on widely used external scientific Python packages. Resource use is discussed qualitatively because runtime, memory, and throughput were not recorded in the original experiment. The result is positioned as a transparent baseline that can be extended to stronger classifiers and newer datasets.
 
 The remainder of the paper reviews the literature, defines the experimental design, explains implementation details, reports the observed results, analyzes the operational error profile, and discusses the scope and limits of the findings.
 
@@ -70,7 +70,7 @@ The SMS Spam Collection introduced by Almeida \textit{et al.} became an importan
 \subsection{Recent Directions}
 Recent literature shows a progression from classical sparse representations toward deep learning, semantic normalization, and more systematic comparative pipelines. A 2024 survey by Al Saidat, Yerima, and Shaalan reviewed NLP and machine-learning approaches for SMS spam and smishing detection and highlighted the increasing use of deep neural methods~\cite{saidat2024survey}. A 2026 study by Senol, Takci, and Seker systematically compared feature extraction, feature selection, class-imbalance handling, scaling, and multiple classifiers on the UCI SMS corpus, showing that relatively simple bag-of-words configurations can remain competitive while offering low computational cost~\cite{senol2026pipeline}.
 
-These recent studies motivate a practical question for smaller research projects. When a student or practitioner has only one day, limited hardware, and a need for reproducibility, it may be more useful to understand a strong classical baseline and its error profile than to immediately reproduce a large model comparison.
+These recent studies motivate a practical question for smaller research projects. When a researcher or practitioner has limited hardware and a need for reproducibility, it may be more useful to understand a strong classical baseline and its error profile than to immediately reproduce a large model comparison.
 
 \begin{table}[t]
 \caption{Representative Research Directions and Their Relation to This Study}
@@ -203,7 +203,7 @@ The implementation follows seven steps.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.96\columnwidth]{figures/architecture.png}
+\includegraphics[width=0.96\columnwidth]{architecture.png}
 \caption{End-to-end architecture of the proposed lightweight SMS spam detection pipeline.}
 \label{fig:architecture}
 \end{figure}
@@ -254,6 +254,8 @@ Hardware & CPU-only execution; exact machine not recorded \\
 The experiment follows several controls. First, the exact local dataset size is reported. Second, the train/test split is deterministic. Third, the vectorizer is trained only on the training partition. Fourth, results are derived directly from stored predictions rather than manually transcribed. Fifth, the confusion matrix is treated as the source for the secondary error metrics.
 
 This design does not solve dataset shift or sampling uncertainty, but it reduces avoidable ambiguity. The supplied experiment did not record the exact Python, NumPy, pandas, or scikit-learn versions, nor did it archive a checksum of the local CSV. These missing artifacts are therefore identified as reproducibility limitations rather than guessed in this manuscript. In particular, it makes it possible for a second researcher to identify whether a disagreement is caused by a different dataset version, split, preprocessing sequence, or classifier configuration.
+
+\paragraph{Data and Code Availability.} The experiment uses a locally supplied 5,559-row CSV derived from the public SMS Spam Collection. The exact local CSV used for the reported experiment is not archived with this manuscript. The accompanying source package includes the experiment script, benchmark script, reported result file, confidence-interval code, plotting utilities, and dependency information needed to reproduce the documented workflow. Future releases should include an exact dataset checksum or version identifier, the original preprocessing script, package versions, and system configuration to support byte-level reproducibility.
 
 \section{Results}
 \subsection{Dataset-Level Findings}
@@ -308,7 +310,7 @@ Rows represent the true class and columns the predicted class, ordered as ham an
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.82\columnwidth]{figures/confusion_matrix.png}
+\includegraphics[width=0.82\columnwidth]{confusion_matrix.png}
 \caption{Observed test-set confusion matrix. Eleven spam messages are missed, while no ham message is incorrectly labeled as spam.}
 \label{fig:cm}
 \end{figure}
@@ -341,21 +343,14 @@ MCC & Correlation-style summary of all four cells & 0.9524 \\
 \end{tabular}
 \end{table}
 
-These values produce a more nuanced conclusion than accuracy alone. The model is highly effective on the observed split, but its performance is not symmetric across the two error types. In a user-facing filter, a false negative allows an unwanted message to reach the user, whereas a false positive could hide an important legitimate message. The preferred operating point would therefore depend on the intended application.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.96\columnwidth]{figures/error_profile.png}
-\caption{Derived error-sensitive profile from the observed confusion matrix. The values emphasize the asymmetry between missed spam and incorrectly flagged ham.}
-\label{fig:errorprofile}
-\end{figure}
+These values produce a more nuanced conclusion than accuracy alone. The model achieves high performance on the observed split, but its performance is not symmetric across the two error types. In a user-facing filter, a false negative allows an unwanted message to reach the user, whereas a false positive could hide an important legitimate message. The preferred operating point would therefore depend on the intended application.
 
 \subsection{Consistency Checks}
 The reported metrics can be independently reconstructed from the confusion matrix. Accuracy is $(979+122)/1112=0.9901$. Spam recall is $122/133=0.9173$. Spam precision is $122/(122+0)=1.0$. This internal consistency check is important because the confusion matrix, rather than rounded percentages, preserves the underlying counts.
 
 \section{Discussion}
 \subsection{What the Result Does and Does Not Show}
-The experiment demonstrates that a standard bag-of-words representation combined with Multinomial Naive Bayes can perform strongly on the supplied SMS corpus. The observed 99.01\% accuracy and 95.69\% spam F1-score indicate that the baseline captures substantial lexical regularities in the data.
+The experiment demonstrates that a standard bag-of-words representation combined with Multinomial Naive Bayes can achieve high predictive performance on the supplied SMS corpus. The observed 99.01\% accuracy and 95.69\% spam F1-score indicate that the baseline captures substantial lexical regularities in the data.
 
 The result is consistent with the broader body of work on classical text classification and SMS filtering~\cite{sebastiani2002ml,mccallum1998nb,cormack2007feature,almeida2011sms}. It also aligns with the more recent finding that bag-of-words representations can remain competitive in lightweight SMS spam pipelines even when modern comparative studies include many additional feature and classifier combinations~\cite{senol2026pipeline}.
 
@@ -445,7 +440,7 @@ This paper presented and evaluated an error-sensitive and reproducible SMS spam 
 
 The central contribution is intentionally modest. Rather than proposing a new classifier, the study demonstrates a reproducible and error-sensitive evaluation pattern for a lightweight NLP system and defines a controlled benchmark protocol for future comparative experiments. By explicitly recording dataset provenance, preserving the train/test boundary, reporting class-wise metrics, and analyzing the confusion matrix, the paper provides more information than a single accuracy value while keeping the implementation simple.
 
-The observed performance supports the use of classical sparse text classification as a useful baseline for student research and lightweight prototypes. It does not establish state-of-the-art performance or universal generalization. A stronger next step is a controlled multi-model comparison with repeated validation, explicit resource measurements, and analysis of false-negative message types.
+The observed performance supports the use of classical sparse text classification as a useful baseline for lightweight prototypes and reproducibility-oriented studies. It does not establish state-of-the-art performance or universal generalization. A stronger next step is a controlled multi-model comparison with repeated validation, explicit resource measurements, and analysis of false-negative message types.
 
 \section*{Acknowledgment}
 The authors thank the maintainers of the UCI Machine Learning Repository and the original SMS Spam Collection contributors for making a public benchmark available for research and education.
