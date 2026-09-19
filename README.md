@@ -6,11 +6,6 @@ and IEEE LaTeX manuscript for the paper:
 **An Error-Sensitive and Reproducible Baseline for SMS Spam Detection Using
 Bag-of-Words and Multinomial Naive Bayes**
 
-## Author
-
-**Aritrik Ghosh**  
-Department of Computer Science and Engineering  
-Swami Vivekananda University, India
 
 ## Repository structure
 
