@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+title: "An Error-Sensitive and Reproducible Baseline for SMS Spam Detection Using Bag-of-Words and Multinomial Naive Bayes"
+type: software
+message: "If you use this repository, please cite the accompanying paper."
+authors:
+  - family-names: Ghosh
+    given-names: Aritrik
+todays-date: 2026-09-19

@@ -1,0 +1,2 @@
+dataset_file,dataset_size,ham_count,spam_count,train_size,test_size,features,accuracy,spam_precision,spam_recall,spam_f1,weighted_precision,weighted_recall,weighted_f1
+spamraw.csv,5559,4812,747,4447,1112,,0.9901079136690647,1.0,0.9172932330827067,0.9568627450980393,0.9902086330935251,0.9901079136690647,0.9899291605464292
