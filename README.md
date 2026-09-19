@@ -154,8 +154,3 @@ partition, not as universal performance estimates.
 
 The original run did not record exact Python/package versions or a checksum of the
 local CSV. The manuscript identifies these as limitations rather than inventing them.
-
-## GitHub upload
-
-Create a new GitHub repository and upload the contents of this folder. Do not upload
-`spamraw.csv` unless you have the right to redistribute it.
